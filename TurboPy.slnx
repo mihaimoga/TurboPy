@@ -1,0 +1,18 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="genUp4win/genUp4win.vcxproj" Id="b404df9b-63e6-4d23-8116-a0c28b9da2a7" />
+  <Project Path="lexilla/src/Lexilla.vcxproj" Id="e541c9be-13bc-4ce6-a0a4-31145f51a2c1">
+    <BuildDependency Project="genUp4win/genUp4win.vcxproj" />
+  </Project>
+  <Project Path="scintilla/win32/Scintilla.vcxproj" Id="19cca8b8-46b9-4609-b7ce-198da19f07bd">
+    <BuildDependency Project="lexilla/src/Lexilla.vcxproj" />
+  </Project>
+  <Project Path="TurboPy/TurboPy.vcxproj">
+    <BuildDependency Project="genUp4win/genUp4win.vcxproj" />
+    <BuildDependency Project="lexilla/src/Lexilla.vcxproj" />
+    <BuildDependency Project="scintilla/win32/Scintilla.vcxproj" />
+  </Project>
+</Solution>
