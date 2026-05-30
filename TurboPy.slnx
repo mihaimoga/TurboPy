@@ -10,6 +10,9 @@
   <Project Path="scintilla/win32/Scintilla.vcxproj" Id="19cca8b8-46b9-4609-b7ce-198da19f07bd">
     <BuildDependency Project="lexilla/src/Lexilla.vcxproj" />
   </Project>
+  <Project Path="Setup/Setup.vdproj" Type="Installer">
+    <Build />
+  </Project>
   <Project Path="TurboPy/TurboPy.vcxproj">
     <BuildDependency Project="genUp4win/genUp4win.vcxproj" />
     <BuildDependency Project="lexilla/src/Lexilla.vcxproj" />
