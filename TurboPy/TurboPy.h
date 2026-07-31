@@ -39,6 +39,7 @@ public:
 protected:
 	HINSTANCE m_hScintilla;
 	HINSTANCE m_hLexilla;
+	CStringArray m_arrSessionFiles;
 
 // Overrides
 public:
