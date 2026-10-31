@@ -26,10 +26,65 @@ TurboPy. If not, see <http://www.opensource.org/licenses/gpl-3.0.html>*/
 
 #include "VersionInfo.h"
 #include "HLinkCtrl.h"
+#include <atlbase.h>
+#include <shlobj.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+namespace
+{
+	bool RegisterPyFileType()
+	{
+		const DWORD dwCapacity = 32768;
+		CString strModulePath;
+		const DWORD dwLength = GetModuleFileName(nullptr, strModulePath.GetBuffer(dwCapacity), dwCapacity);
+		strModulePath.ReleaseBuffer(dwLength < dwCapacity ? static_cast<int>(dwLength) : 0);
+		if (dwLength == 0 || dwLength >= dwCapacity)
+			return false;
+
+		CString strCommand;
+		strCommand.Format(_T("\"%s\" \"%%1\""), strModulePath.GetString());
+
+		ATL::CRegKey key;
+		if (key.Create(HKEY_CURRENT_USER, _T("Software\\Classes\\TurboPy.Document")) != ERROR_SUCCESS ||
+			key.SetStringValue(nullptr, _T("TurboPy Document")) != ERROR_SUCCESS)
+			return false;
+		key.Close();
+		if (key.Create(HKEY_CURRENT_USER, _T("Software\\Classes\\TurboPy.Document\\shell\\open\\command")) != ERROR_SUCCESS ||
+			key.SetStringValue(nullptr, strCommand) != ERROR_SUCCESS)
+			return false;
+		key.Close();
+		if (key.Create(HKEY_CURRENT_USER, _T("Software\\Classes\\.py\\OpenWithProgids")) != ERROR_SUCCESS ||
+			RegSetValueEx(key, _T("TurboPy.Document"), 0, REG_NONE, nullptr, 0) != ERROR_SUCCESS)
+			return false;
+		key.Close();
+
+		TCHAR szAssociation[256];
+		DWORD dwSize = sizeof(szAssociation);
+		const LSTATUS associationStatus = RegGetValue(HKEY_CLASSES_ROOT, _T(".py"), nullptr,
+			RRF_RT_REG_SZ, nullptr, szAssociation, &dwSize);
+		ATL::CRegKey userChoice;
+		const LSTATUS choiceStatus = userChoice.Open(HKEY_CURRENT_USER,
+			_T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\FileExts\\.py\\UserChoice"), KEY_READ);
+		if ((associationStatus == ERROR_FILE_NOT_FOUND ||
+			(associationStatus == ERROR_SUCCESS && szAssociation[0] == _T('\0'))) &&
+			(choiceStatus == ERROR_FILE_NOT_FOUND || choiceStatus == ERROR_PATH_NOT_FOUND))
+		{
+			if (key.Create(HKEY_CURRENT_USER, _T("Software\\Classes\\.py")) != ERROR_SUCCESS ||
+				key.SetStringValue(nullptr, _T("TurboPy.Document")) != ERROR_SUCCESS)
+				return false;
+		}
+		else if ((associationStatus != ERROR_SUCCESS && associationStatus != ERROR_MORE_DATA &&
+			associationStatus != ERROR_FILE_NOT_FOUND) ||
+			(choiceStatus != ERROR_SUCCESS && choiceStatus != ERROR_FILE_NOT_FOUND && choiceStatus != ERROR_PATH_NOT_FOUND))
+			return false;
+
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nullptr, nullptr);
+		return true;
+	}
+}
 
 // CTurboPyApp
 
@@ -228,7 +283,8 @@ BOOL CTurboPyApp::InitInstance()
 
 	// Enable DDE Execute open
 	EnableShellOpen();
-	RegisterShellFileTypes(TRUE);
+	if (!GetProfileInt(_T("FileAssociations"), _T("PyRegistered"), 0) && RegisterPyFileType())
+		WriteProfileInt(_T("FileAssociations"), _T("PyRegistered"), 1);
 
 	// Dispatch commands specified on the command line.  Will return FALSE if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.

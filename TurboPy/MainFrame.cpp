@@ -32,6 +32,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
 	ON_WM_CREATE()
+	ON_WM_COPYDATA()
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND(ID_VIEW_CAPTION_BAR, &CMainFrame::OnViewCaptionBar)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_CAPTION_BAR, &CMainFrame::OnUpdateViewCaptionBar)
@@ -142,6 +143,24 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	ModifyStyle(0, FWS_PREFIXTITLE);
 
 	return 0;
+}
+
+BOOL CMainFrame::OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct)
+{
+	if (pCopyDataStruct != nullptr && pCopyDataStruct->dwData == 0 &&
+		pCopyDataStruct->lpData != nullptr && pCopyDataStruct->cbData >= sizeof(TCHAR) &&
+		pCopyDataStruct->cbData % sizeof(TCHAR) == 0)
+	{
+		const LPCTSTR pszFileName = static_cast<LPCTSTR>(pCopyDataStruct->lpData);
+		const size_t nLength = pCopyDataStruct->cbData / sizeof(TCHAR);
+		if (pszFileName[nLength - 1] == _T('\0'))
+		{
+			if (pszFileName[0] != _T('\0'))
+				theApp.OpenDocumentFile(pszFileName);
+			return TRUE;
+		}
+	}
+	return CMDIFrameWndEx::OnCopyData(pWnd, pCopyDataStruct);
 }
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
