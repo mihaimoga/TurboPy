@@ -29,16 +29,11 @@ TurboPy. If not, see <http://www.opensource.org/licenses/gpl-3.0.html>*/
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
 #include <afxdisp.h>        // MFC Automation classes
-#include <string>
-#include <vector>
-#include <algorithm>
-#include <memory>
-#include <array>
-#include <filesystem>
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
-//Pull in support for Scintilla \ Lexilla
+#include <string>
+// Pull in support for Scintilla \ Lexilla
 #pragma warning(push)
 #pragma warning(disable: 26812)
 #include <ScintillaTypes.h>
@@ -61,3 +56,9 @@ TurboPy. If not, see <http://www.opensource.org/licenses/gpl-3.0.html>*/
 #pragma comment(linker,"/manifestdependency:\"type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 #endif
 #endif
+
+#include <sstream>
+#include <iomanip>
+#include <atlsync.h>
+#include <vector>
+#include <filesystem>

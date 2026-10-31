@@ -22,7 +22,6 @@ TurboPy. If not, see <http://www.opensource.org/licenses/gpl-3.0.html>*/
 #endif
 
 #include "resource.h"       // main symbols
-#include "atlsync.h"
 #include "sinstance.h"
 
 // CTurboPyApp:
