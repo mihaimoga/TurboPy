@@ -212,6 +212,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ScintillaCtrl.h" />
     <ClInclude Include="ScintillaDocView.h" />
+    <ClInclude Include="sinstance.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TurboPy.h" />
     <ClInclude Include="TurboPyDoc.h" />
@@ -236,6 +237,7 @@
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="ScintillaCtrl.cpp" />
     <ClCompile Include="ScintillaDocView.cpp" />
+    <ClCompile Include="sinstance.cpp" />
     <ClCompile Include="TurboPy.cpp" />
     <ClCompile Include="TurboPyDoc.cpp" />
     <ClCompile Include="TurboPyView.cpp" />

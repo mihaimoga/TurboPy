@@ -22,7 +22,8 @@ TurboPy. If not, see <http://www.opensource.org/licenses/gpl-3.0.html>*/
 #endif
 
 #include "resource.h"       // main symbols
-
+#include "atlsync.h"
+#include "sinstance.h"
 
 // CTurboPyApp:
 // See TurboPy.cpp for the implementation of this class
@@ -34,12 +35,13 @@ public:
 	CTurboPyApp() noexcept;
 
 // Member variables
+	CInstanceChecker m_pInstanceChecker;
 	Lexilla::CreateLexerFn m_pCreateLexer;
+	CStringArray m_arrSessionFiles;
 
 protected:
 	HINSTANCE m_hScintilla;
 	HINSTANCE m_hLexilla;
-	CStringArray m_arrSessionFiles;
 
 // Overrides
 public:

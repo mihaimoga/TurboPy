@@ -72,6 +72,9 @@
     <ClInclude Include="ScintillaDocView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="sinstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TurboPy.cpp">
@@ -120,6 +123,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScintillaDocView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sinstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

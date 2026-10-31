@@ -101,7 +101,8 @@ END_MESSAGE_MAP()
 
 CTurboPyApp::CTurboPyApp() noexcept : m_pCreateLexer{ nullptr },
 	m_hScintilla{ nullptr },
-	m_hLexilla{ nullptr }
+	m_hLexilla{ nullptr },
+	m_pInstanceChecker(_T("TurboPy"))
 {
 	m_bHiColorIcons = TRUE;
 
@@ -231,6 +232,18 @@ BOOL CTurboPyApp::InitInstance()
 	// AfxInitRichEdit2() is required to use RichEdit control
 	AfxInitRichEdit2();
 
+	// Check for the previous instance as soon as possible
+	if (m_pInstanceChecker.PreviousInstanceRunning())
+	{
+		CCommandLineInfo cmdInfo;
+		ParseCommandLine(cmdInfo);
+
+		if (cmdInfo.m_strFileName.IsEmpty())
+			AfxMessageBox(_T("Previous version detected, will now restore it..."), MB_OK | MB_ICONINFORMATION);
+		m_pInstanceChecker.ActivatePreviousInstance(cmdInfo.m_strFileName);
+		return FALSE;
+	}
+
 	// Standard initialization
 	// If you are not using these features and wish to reduce the size
 	// of your final executable, you should remove from the following
@@ -307,6 +320,9 @@ BOOL CTurboPyApp::InitInstance()
 	pMainFrame->UpdateWindow();
 	// pMainFrame->MoveWindow(CRect(0, 0, 814, 607));
 	// pMainFrame->CenterWindow();
+
+	// If this is the first instance of our App then track it so any other instances can find us
+	m_pInstanceChecker.TrackFirstInstanceRunning(m_pMainWnd->GetSafeHwnd());
 
 	return TRUE;
 }
