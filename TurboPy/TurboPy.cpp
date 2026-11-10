@@ -61,6 +61,18 @@ namespace
 			return false;
 		key.Close();
 
+		// "Open with TurboPy" contextual shell menu for PY files
+		if (key.Create(HKEY_CURRENT_USER, _T("Software\\Classes\\SystemFileAssociations\\.py\\shell\\TurboPy")) != ERROR_SUCCESS ||
+			key.SetStringValue(nullptr, _T("Open with TurboPy")) != ERROR_SUCCESS ||
+			key.SetStringValue(_T("MUIVerb"), _T("Open with TurboPy")) != ERROR_SUCCESS ||
+			key.SetStringValue(_T("Icon"), strModulePath) != ERROR_SUCCESS)
+			return false;
+		key.Close();
+		if (key.Create(HKEY_CURRENT_USER, _T("Software\\Classes\\SystemFileAssociations\\.py\\shell\\TurboPy\\command")) != ERROR_SUCCESS ||
+			key.SetStringValue(nullptr, strCommand) != ERROR_SUCCESS)
+			return false;
+		key.Close();
+
 		TCHAR szAssociation[256];
 		DWORD dwSize = sizeof(szAssociation);
 		const LSTATUS associationStatus = RegGetValue(HKEY_CLASSES_ROOT, _T(".py"), nullptr,
@@ -296,7 +308,11 @@ BOOL CTurboPyApp::InitInstance()
 
 	// Enable DDE Execute open
 	EnableShellOpen();
-	if (!GetProfileInt(_T("FileAssociations"), _T("PyRegistered"), 0) && RegisterPyFileType())
+	const bool bPyRegistered = GetProfileInt(_T("FileAssociations"), _T("PyRegistered"), 0) != 0;
+	ATL::CRegKey shellKey;
+	const bool bShellMenuRegistered = (shellKey.Open(HKEY_CURRENT_USER,
+		_T("Software\\Classes\\SystemFileAssociations\\.py\\shell\\TurboPy"), KEY_READ) == ERROR_SUCCESS);
+	if ((!bPyRegistered || !bShellMenuRegistered) && RegisterPyFileType())
 		WriteProfileInt(_T("FileAssociations"), _T("PyRegistered"), 1);
 
 	// Dispatch commands specified on the command line.  Will return FALSE if

@@ -13,3 +13,6 @@ HKEY_CLASSES_ROOT\TurboPy.Document\shell\open\ddeexec\application = TurboPy
 
 HKEY_CLASSES_ROOT\TurboPy.Document = TurboPy.Document
 
+HKEY_CLASSES_ROOT\SystemFileAssociations\.py\shell\TurboPy = Open with TurboPy
+HKEY_CLASSES_ROOT\SystemFileAssociations\.py\shell\TurboPy\command = TurboPy.EXE %1
+
