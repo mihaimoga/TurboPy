@@ -60,6 +60,55 @@
 					</ul>
 					<p>The portable zip edition of <em>TurboPy</em> can be removed by deleting the directory they came in. If you manually set up file associations or context-menu entries in the OS, it is your responsibility to remove them yourself.</p>
 
+					<h2 id="roadmap">Roadmap</h2>
+					<p>This roadmap outlines where <em>TurboPy</em> is heading. Today it is a fast, tabbed Python code editor with syntax highlighting, and the roadmap builds toward the IDE described in the introduction, where you code, run, debug, test and manage Python projects in one place. It brings together the next steps for the features that are already there, ideas for new ones, and the maintenance work that goes into every release. Items are grouped by horizon rather than by date, and their order may change as feedback arrives or as the libraries <em>TurboPy</em> builds on evolve, so please treat it as a statement of intent, not a promise. For everything that has already shipped, see the <a href="ReleaseNotes.html">Release Notes</a>.</p>
+					<p class="text-body-secondary"><small>Last reviewed: November 2026 (version 0.02 in development).</small></p>
+
+					<h3>Now <small class="text-body-secondary fw-normal">in progress and ongoing</small></h3>
+					<ul>
+						<li><strong>Version 0.02</strong>: an <em>Open with TurboPy</em> command in the Windows Explorer context menu of <code>.py</code> files, shown with the <em>TurboPy</em> icon, and the latest version of PJ Naughter's <code>CScintillaCtrl</code> library.</li>
+						<li><strong>Up-to-date components</strong>: releases keep picking up the latest Scintilla and Lexilla (the editing component and its syntax highlighters), PJ Naughter's helper classes and genUp4win (the update library).</li>
+						<li><strong>Stability, security and performance</strong>: bug fixes, security updates and performance tuning continue alongside new features. Version 0.01 is a pre-release, so bug reports from a wide range of Windows setups are especially welcome.</li>
+					</ul>
+
+					<h3>Next <small class="text-body-secondary fw-normal">planned, next in line</small></h3>
+					<ul>
+						<li><strong>Run a script</strong>: a ribbon button and a keyboard shortcut to run the current Python file, plus a command to stop it. <em>TurboPy</em> edits and saves Python files today, but it cannot run them yet.</li>
+						<li><strong>Output pane</strong>: show what a script prints, both standard output and errors, in a dockable pane, with tracebacks that can be clicked to jump to the line that failed.</li>
+						<li><strong>Python interpreter selection</strong>: choose which installed Python or virtual environment runs your scripts, and show the selected one in the status bar.</li>
+						<li><strong>Python-friendly editing</strong>: indent with four spaces as PEP 8 recommends (pressing Tab inserts a tab character today), indent automatically after a colon, show indentation guides, match braces, comment and uncomment the selected lines, and refresh the keyword list for current Python releases, including soft keywords such as <code>match</code>, <code>case</code> and <code>type</code>.</li>
+						<li><strong>Status bar and Go To Line</strong>: show the line and column of the caret, the encoding and the line endings in the status bar, which has no indicators today, and jump to a line by its number.</li>
+						<li><strong>UTF-8 without BOM</strong>: recognize UTF-8 files that have no byte order mark, which is the default for Python 3 source files. Today such files are read as single-byte text, so their non-ASCII characters are not displayed correctly.</li>
+						<li><strong>Check for updates</strong>: a <em>Check for Updates</em> command that finds and installs new versions through genUp4win, which already ships with the installer but is not called by <em>TurboPy</em> yet.</li>
+					</ul>
+					<p>Running a script needs an interpreter to run it with and a pane to show its output, so the first three items are likely to be tackled together.</p>
+
+					<h3>Later <small class="text-body-secondary fw-normal">planned, larger efforts</small></h3>
+					<ul>
+						<li><strong>Workspace, File View and Find in Files</strong>: open a folder as a project, browse its files in a dockable pane, and search for text across all of them; Find and Replace only works on the current file today.</li>
+						<li><strong>Code folding and symbol outline</strong>: collapse classes, functions and blocks, and browse the classes, functions and methods of the current file as a tree in a dockable Class View pane.</li>
+						<li><strong>Debugger</strong>: set breakpoints by clicking in the margin, step through the code and inspect variables. The editor already defines breakpoint and execution-pointer markers in its margin, but nothing uses them yet.</li>
+						<li><strong>Code completion and call tips</strong>: suggestions for keywords and for the names defined in your code as you type, and parameter hints for function calls.</li>
+						<li><strong>Testing</strong>: discover and run <code>unittest</code> and <code>pytest</code> tests, and review the results in a pane that jumps to the failures.</li>
+						<li><strong>Packages and virtual environments</strong>: create virtual environments, install packages with <code>pip</code>, and work with <code>requirements.txt</code> files without leaving <em>TurboPy</em>.</li>
+						<li><strong>Options dialog</strong>: one place to change what is fixed today, such as the font, the tab width, the indentation style and word wrap, which is always on.</li>
+					</ul>
+
+					<h3>Under consideration <small class="text-body-secondary fw-normal">ideas, not yet committed</small></h3>
+					<ul>
+						<li><strong>Language Server Protocol support</strong>: connect to a Python language server such as Pyright or python-lsp-server for smarter completion, go to definition, hover information and diagnostics.</li>
+						<li><strong>Linting and formatting</strong>: run a linter such as Ruff and a formatter such as Black from inside <em>TurboPy</em>, and show the problems in the editor.</li>
+						<li><strong>Interactive console</strong>: a Python console (REPL) in a dockable pane, to try out code without creating a file first.</li>
+						<li><strong>Bundled Python runtime</strong>: an optional Python distribution shipped with <em>TurboPy</em>, so that scripts can be run on a PC where Python is not installed.</li>
+						<li><strong>Themes and dark mode</strong>: selectable color schemes for the editor, including a dark one; the syntax colors are fixed today.</li>
+						<li><strong>Localized user interface</strong>: translated ribbon, commands and messages (the user interface is English only today).</li>
+						<li><strong>Native ARM64 and high-DPI support</strong>: a native ARM64 build for Windows on Arm devices (<em>TurboPy</em> is currently built for x86 and x64) and Per-Monitor V2 DPI awareness for a sharper interface on high-DPI and mixed-DPI displays.</li>
+						<li><strong>Automated builds</strong>: a GitHub Actions workflow that builds the solution and checks every pull request, since there is no continuous integration yet.</li>
+					</ul>
+
+					<h3>Help shape the roadmap</h3>
+					<p>Want to see something sooner, or have an idea that is not listed here? <a href="https://github.com/mihaimoga/TurboPy/issues" target="_blank">Open an issue</a> or start a conversation in <a href="https://github.com/mihaimoga/TurboPy/discussions" target="_blank">Discussions</a>. Contributions are welcome as well: any item above can be picked up through a pull request, as described in the next section. For enhancements, the issue must be approved by a project administrator (it will carry the <code>Accepted</code> label) before the pull request can be merged, so it is best to open the issue before you start coding.</p>
+
 					<h2>Create and Submit your Pull Request</h2>
 					<p>As noted in the <a href="https://github.com/mihaimoga/TurboPy/blob/main/CONTRIBUTING.md" target="_blank">Contributing Rules</a> for <em>TurboPy</em>, all Pull Requests need to be attached to a issue on GitHub. So the first step is to create an issue which requests that the functionality be improved (if it was already there) or added (if it was not yet there); in your issue, be sure to explain that you have the functionality definition ready, and will be submitting a Pull Request. The second step is to use the GitHub interface to create the Pull Request from your fork into the main repository. The final step is to wait for and respond to feedback from the developers as needed, until such time as your PR is accepted or rejected.</p>
 				</div>
